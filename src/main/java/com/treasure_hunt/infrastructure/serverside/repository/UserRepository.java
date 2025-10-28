@@ -1,0 +1,16 @@
+package com.treasure_hunt.infrastructure.serverside.repository;
+
+import com.treasure_hunt.infrastructure.serverside.entity.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    boolean existsByNickname(String nickname);
+    boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByEmail(String email);
+    List<UserEntity> findByNicknameContainingIgnoreCase(String nickname);
+    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByPhoneNumber(String phoneNumber);
+}
