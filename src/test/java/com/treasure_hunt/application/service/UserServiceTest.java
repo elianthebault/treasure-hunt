@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -100,32 +101,32 @@ public class UserServiceTest {
 
     @Test
     void updateTest() {
-        int id = 1;
+        UUID uuid = UUID.randomUUID();
         String email = "aluile@mail.fr";
 
         User existing = create();
-        existing.setId(id);
+        existing.setUuid(uuid);
 
         User input = create();
-        input.setId(id);
+        input.setUuid(uuid);
         input.setEmail(email);
 
         User persisted = create();
-        persisted.setId(id);
+        persisted.setUuid(uuid);
         persisted.setEmail(email);
 
-        when(userPort.existsById(id)).thenReturn(true);
-        when(userPort.findById(id)).thenReturn(Optional.of(existing));
+        when(userPort.existsByUuid(uuid)).thenReturn(true);
+        when(userPort.findByUuid(uuid)).thenReturn(Optional.of(existing));
         when(userPort.save(existing)).thenReturn(persisted);
 
-        User result = userService.update(id, input, null);
+        User result = userService.update(uuid, input, null);
 
         assertNotNull(result);
-        assertEquals(id, result.getId());
+        assertEquals(uuid, result.getId());
         assertEquals(email, result.getEmail());
 
-        verify(userPort).existsById(id);
-        verify(userPort).findById(id);
+        verify(userPort).existsByUuid(uuid);
+        verify(userPort).findByUuid(uuid);
         verify(userPort).save(existing);
     }
 

@@ -2,6 +2,8 @@ package com.treasure_hunt.infrastructure.serverside.entity;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -9,6 +11,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private UUID uuid;
     private String phoneNumber;
     private String email;
     private String firstname;
@@ -26,6 +29,14 @@ public class UserEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getPhoneNumber() {

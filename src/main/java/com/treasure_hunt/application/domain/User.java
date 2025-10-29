@@ -19,4 +19,6 @@ public class User {
     private String nickname;
     private String profile;
     private String password;
+    //TODO
+    //Add "boolean valid" attribute
 }

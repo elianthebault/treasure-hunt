@@ -50,8 +50,18 @@ public class UserJdbcAdapter implements UserPort {
     }
 
     @Override
+    public void deleteByUuid(UUID uuid) {
+        userRepository.deleteByUuid(uuid);
+    }
+
+    @Override
     public boolean existsById(int id) {
         return userRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByUuid(UUID uuid) {
+        return userRepository.existsByUuid(uuid);
     }
 
     @Override

@@ -37,11 +37,14 @@ public class UserService implements UserUseCase {
     @Override
     public User save(User user, MultipartFile image) {
         verifyUser(user);
+
+        user.setUuid(UUID.randomUUID());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         User savedUser = userPort.save(user);
 
         if (image != null) {
-            savedUser.setProfile(uploadImage(image, savedUser.getId()));
+            savedUser.setProfile(uploadImage(image, savedUser.getUuid()));
             return userPort.save(savedUser);
         }
 
@@ -77,28 +80,33 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public User update(int id, User newUser, MultipartFile image) {
-        if (!userPort.existsById(id))
+    public void deleteByUuid(UUID uuid) {
+        if (!userPort.existsByUuid(uuid))
             throw new UserNotFoundException(NOT_FOUND);
 
-        User userToUpdate = findById(id);
+        userPort.deleteByUuid(uuid);
+    }
+
+    @Override
+    public User update(UUID uuid, User newUser, MultipartFile image) {
+        User userToUpdate = findByUuid(uuid);
 
         compareUser(userToUpdate, newUser);
 
         if (image != null) {
             deleteProfile(userToUpdate.getProfile());
-            userToUpdate.setProfile(uploadImage(image, userToUpdate.getId()));
+            userToUpdate.setProfile(uploadImage(image, userToUpdate.getUuid()));
         }
 
         return userPort.save(userToUpdate);
     }
 
     @Override
-    public void changePasswordRequest(int id) {
-        if (!userPort.existsById(id))
+    public void changePasswordRequest(UUID uuid) {
+        if (!userPort.existsByUuid(uuid))
             throw new UserNotFoundException(NOT_FOUND);
 
-        User userToUpdate = findById(id);
+        User userToUpdate = findByUuid(uuid);
 
         //TODO
         //resetPasswordService.sendResetMail(userToUpdate.getEmail());
@@ -146,12 +154,12 @@ public class UserService implements UserUseCase {
             throw new UserException("Nickname already exists.");
     }
 
-    private String uploadImage(MultipartFile image, int id) {
+    private String uploadImage(MultipartFile image, UUID uuid) {
         String imagePath = null;
 
         Map<String, Object> infos = new HashMap<>();
         infos.put("type", "profile");
-        infos.put("userId", id);
+        infos.put("userId", uuid);
 
         try {
             imagePath = imageService.processImage(image, infos);

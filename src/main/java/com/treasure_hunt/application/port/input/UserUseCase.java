@@ -11,6 +11,7 @@ public interface UserUseCase {
     User findById(int id);
     User findByUuid(UUID uuid);
     void deleteById(int id);
-    User update(int id, User user, MultipartFile image);
-    void changePasswordRequest(int id);
+    void deleteByUuid(UUID uuid);
+    User update(UUID uuid, User user, MultipartFile image);
+    void changePasswordRequest(UUID uuid);
 }

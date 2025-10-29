@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -66,12 +68,12 @@ public class UserController {
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserResponseDto> update(
-            @PathVariable("id") int id,
+            @PathVariable("uuid") UUID uuid,
             @RequestBody UserRequestDto userRequestDto,
             @RequestPart(value = "image", required = false) MultipartFile image
     ) {
         User user = userDtoMapper.toUser(userRequestDto);
-        User updatedUser = userUseCase.update(id, user, image);
+        User updatedUser = userUseCase.update(uuid, user, image);
         UserResponseDto userResponseDto = userDtoMapper.toUserResponseDto(updatedUser);
 
         return ResponseEntity.ok(userResponseDto);

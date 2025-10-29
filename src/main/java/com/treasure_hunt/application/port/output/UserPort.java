@@ -11,7 +11,9 @@ public interface UserPort {
     Optional<User> findById(int id);
     Optional<User> findByUuid(UUID uuid);
     void deleteById(int id);
+    void deleteByUuid(UUID uuid);
     boolean existsById(int id);
+    boolean existsByUuid(UUID uuid);
     boolean existsByNickname(String nickname);
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByEmail(String email);

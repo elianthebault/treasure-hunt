@@ -11,6 +11,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     boolean existsByNickname(String nickname);
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByEmail(String email);
+    boolean existsByUuid(UUID uuid);
+    void deleteByUuid(UUID uuid);
     List<UserEntity> findByNicknameContainingIgnoreCase(String nickname);
     Optional<UserEntity> findByUuid(UUID uuid);
     Optional<UserEntity> findByEmail(String email);
