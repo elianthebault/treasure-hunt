@@ -5,12 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     boolean existsByNickname(String nickname);
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByEmail(String email);
     List<UserEntity> findByNicknameContainingIgnoreCase(String nickname);
+    Optional<UserEntity> findByUuid(UUID uuid);
     Optional<UserEntity> findByEmail(String email);
     Optional<UserEntity> findByPhoneNumber(String phoneNumber);
 }

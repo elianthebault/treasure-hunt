@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class UserService implements UserUseCase {
     private static final String NOT_FOUND = "User not found.";
@@ -50,6 +51,16 @@ public class UserService implements UserUseCase {
     @Override
     public User findById(int id) {
         Optional<User> optionalUser = userPort.findById(id);
+
+        if (optionalUser.isEmpty())
+            throw new UserNotFoundException(NOT_FOUND);
+
+        return optionalUser.get();
+    }
+
+    @Override
+    public User findByUuid(UUID uuid) {
+        Optional<User> optionalUser = userPort.findByUuid(uuid);
 
         if (optionalUser.isEmpty())
             throw new UserNotFoundException(NOT_FOUND);

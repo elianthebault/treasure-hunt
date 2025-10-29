@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class UserJdbcAdapter implements UserPort {
@@ -32,6 +33,13 @@ public class UserJdbcAdapter implements UserPort {
     @Override
     public Optional<User> findById(int id) {
         Optional<UserEntity> optional = userRepository.findById(id);
+
+        return optional.map(userEntityMapper::toUser);
+    }
+
+    @Override
+    public Optional<User> findByUuid(UUID uuid) {
+        Optional<UserEntity> optional = userRepository.findByUuid(uuid);
 
         return optional.map(userEntityMapper::toUser);
     }
