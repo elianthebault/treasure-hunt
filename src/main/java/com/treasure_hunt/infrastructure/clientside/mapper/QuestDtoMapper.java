@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = { StepDtoMapper.class })
 public interface QuestDtoMapper {
-    //@Mapping(target = "author", expression = "java(userUseCase.findByUuid(questRequestDto.authorUuid()))")
+    @Mapping(target = "author", expression = "java(userUseCase.findByUuid(questRequestDto.authorUuid()))")
     Quest toQuest(QuestRequestDto questRequestDto);
 
     QuestResponseDto toQuestResponseDto(Quest quest);

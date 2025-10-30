@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface QuestUseCase {
-    Quest save(Quest quest, UUID authorUuid);
+    Quest save(Quest quest);
     List<Quest> findAll();
     Quest findById(int id);
     Quest findByUuid(UUID uuid);

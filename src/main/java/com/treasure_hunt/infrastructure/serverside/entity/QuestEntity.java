@@ -20,7 +20,11 @@ public class QuestEntity {
 
     private String name;
     private String lore;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "first_step_id")
     private StepEntity firstStep;
+
     private Boolean valid;
 
     public QuestEntity() {

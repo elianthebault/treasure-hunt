@@ -25,11 +25,10 @@ public class QuestController {
 
     @PostMapping
     public ResponseEntity<QuestResponseDto> save(
-            @RequestBody QuestRequestDto questRequestDto,
-            @RequestParam UUID authorUuid
+            @RequestBody QuestRequestDto questRequestDto
     ) {
         Quest quest = questDtoMapper.toQuest(questRequestDto);
-        Quest persisted = questUseCase.save(quest, authorUuid);
+        Quest persisted = questUseCase.save(quest);
         QuestResponseDto questResponseDto = questDtoMapper.toQuestResponseDto(persisted);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(questResponseDto);

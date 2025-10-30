@@ -1,13 +1,10 @@
 package com.treasure_hunt.application.service;
 
 import com.treasure_hunt.application.domain.Quest;
-import com.treasure_hunt.application.domain.User;
 import com.treasure_hunt.application.exception.QuestException;
 import com.treasure_hunt.application.exception.QuestNotFoundException;
-import com.treasure_hunt.application.exception.UserNotFoundException;
 import com.treasure_hunt.application.port.input.QuestUseCase;
 import com.treasure_hunt.application.port.output.QuestPort;
-import com.treasure_hunt.application.port.output.UserPort;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,21 +14,17 @@ public class QuestService implements QuestUseCase {
     private static final String NOT_FOUND = "Quest not found.";
 
     private final QuestPort questPort;
-    private final UserPort userPort;
 
-    public QuestService(QuestPort questPort, UserPort userPort) {
+    public QuestService(QuestPort questPort) {
         this.questPort = questPort;
-        this.userPort = userPort;
     }
 
     @Override
-    public Quest save(Quest quest, UUID authorUuid) {
+    public Quest save(Quest quest) {
         verifyQuest(quest);
 
-        User author = userPort.findByUuid(authorUuid)
-                .orElseThrow(() -> new UserNotFoundException("Author not found."));
-        quest.setAuthor(author);
         quest.setUuid(UUID.randomUUID());
+        quest.setValid(true);
 
         return questPort.save(quest);
     }
@@ -88,6 +81,9 @@ public class QuestService implements QuestUseCase {
     public void deleteByUuid(UUID uuid) {
         if (!questPort.existsByUuid(uuid))
             throw new QuestNotFoundException(NOT_FOUND);
+
+        //TODO
+        //stepPort.deleteByQuestUuid(uuid);
 
         questPort.deleteByUuid(uuid);
     }
