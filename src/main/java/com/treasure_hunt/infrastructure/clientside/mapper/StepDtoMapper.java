@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface StepDtoMapper {
-    @Mapping(target = "previousStep", expression = "java(stepUseCase.findById(stepRequestDto.previousStepId()))")
     Step toStep(StepRequestDto stepRequestDto);
 
     StepResponseDto toStepResponseDto(Step step);

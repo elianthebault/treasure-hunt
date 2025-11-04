@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface QuestRepository extends JpaRepository<QuestEntity, Integer> {
     boolean existsByUuid(UUID uuid);
     void deleteByUuid(UUID uuid);
-    List<QuestEntity> findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(String search);
+    List<QuestEntity> findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(String name, String lore);
 }

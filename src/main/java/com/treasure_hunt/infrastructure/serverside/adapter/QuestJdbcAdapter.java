@@ -62,16 +62,16 @@ public class QuestJdbcAdapter implements QuestPort {
 
     @Override
     public void deleteById(int id) {
-
+        questRepository.deleteById(id);
     }
 
     @Override
     public void deleteByUuid(UUID uuid) {
-
+        questRepository.deleteByUuid(uuid);
     }
 
     @Override
-    public List<Quest> findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(String search) {
+    public List<Quest> findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(String name, String lore) {
         return List.of();
     }
 }

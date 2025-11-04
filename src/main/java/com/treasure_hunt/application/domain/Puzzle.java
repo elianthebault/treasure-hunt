@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Puzzle {
-    int id;
-    String riddle;
-    String clue;
+    private int id;
+    private String riddle;
+    private String clue;
 }

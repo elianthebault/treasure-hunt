@@ -66,7 +66,7 @@ public class QuestService implements QuestUseCase {
 
     @Override
     public List<Quest> findByNameAndLore(String search) {
-        return questPort.findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(search);
+        return questPort.findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(search, search);
     }
 
     @Override

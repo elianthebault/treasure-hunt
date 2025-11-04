@@ -5,6 +5,7 @@ import com.treasure_hunt.application.port.input.QuestUseCase;
 import com.treasure_hunt.infrastructure.clientside.dto.quest.QuestRequestDto;
 import com.treasure_hunt.infrastructure.clientside.dto.quest.QuestResponseDto;
 import com.treasure_hunt.infrastructure.clientside.mapper.QuestDtoMapper;
+import com.treasure_hunt.infrastructure.clientside.mapper.helper.QuestMappingHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +18,19 @@ import java.util.UUID;
 public class QuestController {
     private final QuestDtoMapper questDtoMapper;
     private final QuestUseCase questUseCase;
+    private final QuestMappingHelper helper;
 
-    public QuestController(QuestDtoMapper questDtoMapper, QuestUseCase questUseCase) {
+    public QuestController(QuestDtoMapper questDtoMapper, QuestUseCase questUseCase, QuestMappingHelper helper) {
         this.questDtoMapper = questDtoMapper;
         this.questUseCase = questUseCase;
+        this.helper = helper;
     }
 
     @PostMapping
     public ResponseEntity<QuestResponseDto> save(
             @RequestBody QuestRequestDto questRequestDto
     ) {
-        Quest quest = questDtoMapper.toQuest(questRequestDto);
+        Quest quest = questDtoMapper.toQuest(questRequestDto, helper);
         Quest persisted = questUseCase.save(quest);
         QuestResponseDto questResponseDto = questDtoMapper.toQuestResponseDto(persisted);
 
@@ -91,7 +94,7 @@ public class QuestController {
             @PathVariable("uuid") UUID uuid,
             @RequestBody QuestRequestDto questRequestDto
     ) {
-        Quest quest = questDtoMapper.toQuest(questRequestDto);
+        Quest quest = questDtoMapper.toQuest(questRequestDto, helper);
         Quest updatedQuest = questUseCase.update(uuid, quest);
         QuestResponseDto questResponseDto = questDtoMapper.toQuestResponseDto(updatedQuest);
 

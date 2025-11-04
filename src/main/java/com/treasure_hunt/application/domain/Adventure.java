@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Adventure {
-    int id;
-    User adventurer;
-    Quest quest;
-    List<Step> journey;
+    private int id;
+    private UUID uuid;
+    private User adventurer;
+    private Quest quest;
+    private Step currentStep;
 }

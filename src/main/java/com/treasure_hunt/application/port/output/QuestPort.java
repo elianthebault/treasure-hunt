@@ -17,5 +17,5 @@ public interface QuestPort {
     boolean existsByUuid(UUID uuid);
     void deleteById(int id);
     void deleteByUuid(UUID uuid);
-    List<Quest> findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(String search);
+    List<Quest> findByNameContainsIgnoreCaseAndLoreContainsIgnoreCase(String name, String lore);
 }
