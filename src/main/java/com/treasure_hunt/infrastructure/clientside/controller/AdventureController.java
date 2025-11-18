@@ -6,6 +6,8 @@ import com.treasure_hunt.infrastructure.clientside.dto.adventure.AdventureReques
 import com.treasure_hunt.infrastructure.clientside.dto.adventure.AdventureResponseDto;
 import com.treasure_hunt.infrastructure.clientside.mapper.AdventureDtoMapper;
 import com.treasure_hunt.infrastructure.clientside.mapper.helper.AdventureMappingHelper;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

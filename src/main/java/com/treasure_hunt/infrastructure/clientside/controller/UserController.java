@@ -5,6 +5,7 @@ import com.treasure_hunt.application.port.input.UserUseCase;
 import com.treasure_hunt.infrastructure.clientside.dto.user.UserRequestDto;
 import com.treasure_hunt.infrastructure.clientside.dto.user.UserResponseDto;
 import com.treasure_hunt.infrastructure.clientside.mapper.UserDtoMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
+    @Operation(summary = "Login", description = "Allow a user to log in the app.")
     public ResponseEntity<UserResponseDto> login(
             @RequestParam("login") String login,
             @RequestParam("password") String password
@@ -37,17 +39,18 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserResponseDto> save(
-            @RequestBody UserRequestDto userRequestDto,
+            @RequestPart("user") UserRequestDto user,
             @RequestPart(value = "image", required = false) MultipartFile image
     ) {
-        User user = userDtoMapper.toUser(userRequestDto);
-        User persisted = userUseCase.save(user, image);
-        UserResponseDto userResponseDto = userDtoMapper.toUserResponseDto(persisted);
+        User persisted = userUseCase.save(userDtoMapper.toUser(user), image);
+        UserResponseDto response = userDtoMapper.toUserResponseDto(persisted);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
     @GetMapping("/{id}")
+    @Operation(summary = "Find by id", description = "To find a user using his ID.")
     public ResponseEntity<UserResponseDto> findById(
             @PathVariable("id") int id
     ) {
@@ -58,6 +61,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete by id", description = "To delete a user using his ID.")
     public ResponseEntity<Void> deleteById(
             @PathVariable("id") int id
     ) {
@@ -67,6 +71,7 @@ public class UserController {
     }
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Update user", description = "To update user infos.")
     public ResponseEntity<UserResponseDto> update(
             @PathVariable("uuid") UUID uuid,
             @RequestBody UserRequestDto userRequestDto,
