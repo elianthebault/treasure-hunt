@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                //.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -54,18 +54,18 @@ public class SecurityConfiguration {
         return httpSecurity.build();
     }
 
-    //@Bean
-    //CorsConfigurationSource corsConfigurationSource() {
-    //    CorsConfiguration configuration = new CorsConfiguration();
-    //    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4201"));
-    //    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    //    configuration.setAllowedHeaders(Arrays.asList("*"));
-    //    configuration.setAllowCredentials(true);
-//
-    //    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //    source.registerCorsConfiguration("/**", configuration);
-    //    return source;
-    //}
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8091"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

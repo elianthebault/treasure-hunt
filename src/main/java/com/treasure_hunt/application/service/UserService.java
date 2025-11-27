@@ -135,6 +135,10 @@ public class UserService implements UserUseCase {
             throw new UserException("User is null.");
         if (user.getId() != 0)
             throw new UserException("Id is different from 0(zero).");
+        if (user.getPhoneNumber() == null || user.getPhoneNumber().isBlank())
+            throw new UserException("Phone number is null or blank.");
+        if (user.getEmail() == null || user.getEmail().isBlank())
+            throw new UserException("Email is null or blank.");
         if (user.getFirstname() == null || user.getFirstname().isBlank())
             throw new UserException("Firstname is null or blank.");
         if (user.getLastname() == null || user.getLastname().isBlank())

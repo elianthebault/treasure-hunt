@@ -2,6 +2,7 @@ package com.treasure_hunt.infrastructure.clientside.controller;
 
 import com.treasure_hunt.application.domain.User;
 import com.treasure_hunt.application.port.input.UserUseCase;
+import com.treasure_hunt.infrastructure.clientside.dto.user.LoginRequestDto;
 import com.treasure_hunt.infrastructure.clientside.dto.user.UserRequestDto;
 import com.treasure_hunt.infrastructure.clientside.dto.user.UserResponseDto;
 import com.treasure_hunt.infrastructure.clientside.mapper.UserDtoMapper;
@@ -25,13 +26,12 @@ public class UserController {
         this.userUseCase = userUseCase;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @Operation(summary = "Login", description = "Allow a user to log in the app.")
     public ResponseEntity<UserResponseDto> login(
-            @RequestParam("login") String login,
-            @RequestParam("password") String password
+            @RequestBody LoginRequestDto loginRequestDto
     ) {
-        User user = userUseCase.login(login, password);
+        User user = userUseCase.login(loginRequestDto.email(), loginRequestDto.password());
         UserResponseDto userResponseDto = userDtoMapper.toUserResponseDto(user);
 
         return ResponseEntity.ok(userResponseDto);
@@ -47,6 +47,8 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+
 
 
     @GetMapping("/{id}")
